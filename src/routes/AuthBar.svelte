@@ -54,15 +54,18 @@
 {:else if status === "authorized"}
 <button class="cursor-pointer outer p-1" on:click={logout}>logout</button>
 {#if page.url.pathname === "/notes"}
-<button class="cursor-pointer outer p-1" on:click={() => goto(resolve("/"))}>exit manage page</button>
+<button class="cursor-pointer outer p-1" on:click={() => goto(resolve("/"))}>exit view</button>
 {:else}
-<button class="cursor-pointer outer p-1" on:click={() => goto(resolve("/notes"))}>manage panes of notes</button>
+<button class="cursor-pointer outer p-1" on:click={() => goto(resolve("/notes"))}>manage notes</button>
 {/if}
 {/if}
 
 
 <style lang="postcss">
+    @reference "tailwindcss";
+
 	.outer {
         @apply border-t-2 border-l-2 border-r-4 border-b-8 border-solid;
+        @apply border-(--theme) text-(--theme);
     }
 </style>

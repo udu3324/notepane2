@@ -8,6 +8,10 @@
     let note
 
     onMount(() => {
+        if (localStorage.theme === "dark") {
+			document.documentElement.classList.add("dark")
+		}
+        
         fetch(`/api/notes/get/${data.slug}`)
         .then(response=>response.json())
         .then((data) => {

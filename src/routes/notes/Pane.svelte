@@ -38,7 +38,7 @@
     @reference "tailwindcss";
 
     button {
-        @apply cursor-pointer hover:bg-white hover:text-black;
+        @apply cursor-pointer hover:bg-white hover:text-black dark:hover:bg-black dark:hover:text-white;
     }
 
     a:hover {
@@ -46,16 +46,16 @@
     }
 
     .outer {
-        @apply border-t-2 border-l-2 border-r-8 border-solid;
+        @apply border-t-2 border-l-2 border-r-8 border-solid border-(--theme);
         @apply w-fit h-fit max-w-svw;
     }
 
     .textarea {
-        @apply resize min-w-52 min-h-52 w-52 h-52 px-1 text-left max-w-svw;
+        @apply resize min-w-52 min-h-52 w-52 h-52 px-1 text-left max-w-svw text-(--theme);
         overflow: auto;
     }
 
     .footer {
-        @apply text-xs font-mono bg-black text-white;
+        @apply text-xs font-mono bg-(--theme) text-(--theme-background);
     }
 </style>

@@ -22,9 +22,6 @@
 
     $: {
         if (selected) {
-            console.log("cursor is", document.body.style.cursor)
-            console.log(getComputedStyle(document.body).cursor)
-            console.log("selected", selected)
             textAreaMarkdown = selected.markdown
             publicURL = selected.public_url
             publicPane = selected.public_pane
@@ -34,7 +31,7 @@
 
     onMount(() => {
         //check if has key stored
-        if (localStorage.getItem("key") === null) goto(resolve("/login"))
+        if (localStorage.getItem("key") === null) goto(resolve("/"))
 
         fetch('/api/auth', {
             method: "GET",
@@ -150,11 +147,11 @@
 {#if selected}
 <!-- svelte-ignore a11y_click_events_have_key_events -->
 <!-- svelte-ignore a11y_no_static_element_interactions -->
-<div on:click={unselect} class="fixed grid h-screen w-screen place-content-center">
-    <div on:click|stopPropagation id="selection" class="border-t-2 border-l-2 border-r-8 border-solid backdrop-blur-lg">
+<div on:click={unselect} class="fixed grid h-screen w-screen place-content-center bg-black/50">
+    <div on:click|stopPropagation id="selection" class="border-t-2 border-l-2 border-r-8 border-solid bg-(--theme-background) border-(--theme)">
         <textarea on:input={(e) => submitModification(e.target.value, undefined, undefined, undefined)} bind:value={textAreaMarkdown} placeholder="empty" class="w-full min-h-96 min-w-96 max-w-svw max-h resize"></textarea>
 
-        <div class="bg-black text-white flex justify-between font-mono">
+        <div class="bg-(--theme) text-white flex justify-between font-mono dark:text-black">
             <button on:click={remove(selected.id)} class="pl-2">Delete</button>
 
             <div class="text-xs place-content-center">
@@ -177,10 +174,10 @@
 
 <div>
     <div class="flex place-content-center m-3">
-        <div class="border-t-2 border-l-2 border-r-8 border-solid">
+        <div class="border-t-2 border-l-2 border-r-8 border-solid border-(--theme)">
             <textarea bind:value={input} type="text" placeholder="markdown" class="w-full min-h-52 min-w-96 max-w-svw resize"></textarea>
         
-            <div class="flex justify-between text-white bg-black font-mono w-full">
+            <div class="flex justify-between text-white bg-(--theme) font-mono w-full dark:text-black">
                 <button on:click={add} class="pl-2 hover:underline">Publish</button>
 
                 <div class="text-xs place-content-center">
@@ -194,7 +191,8 @@
         </div>
     </div>
 
-    <div class="p-3 gap-2 flex flex-wrap bg-amber-400">
+    <div class="p-3 gap-2 flex flex-wrap border-b-2 border-(--theme)">
+        
         {#each notes as note (note.id)}
         {#if note.pinned}
         <button on:click={() => {selected = note}}>
@@ -219,7 +217,10 @@
 {/if}
 
 <style lang="postcss">
+    @reference "tailwindcss";
+
     textarea {
+        @apply text-(--theme);
         margin-bottom: -6px;
     }
 </style>

@@ -1,5 +1,17 @@
 @import 'tailwindcss';
 
+@custom-variant dark (&:where(.dark, .dark *));
+
+:root {
+    --theme: theme('colors.zinc.900');
+    --theme-background: theme('colors.white');
+}
+
+.dark {
+    --theme: theme('colors.zinc.200');
+    --theme-background: theme('colors.zinc.900');
+    @apply bg-(--theme-background);
+}
 
 textarea {
     @apply px-1;
