@@ -1,7 +1,9 @@
-import { DATABASE_URL } from '$env/static/private'
+import { POSTGRES_USER, POSTGRES_PASSWORD, POSTGRES_DB } from '$env/static/private'
 import postgres from 'postgres'
 
-const sql = postgres(DATABASE_URL, {
+const hostname = process.env.DOCKER_ENV ? 'db' : 'localhost'
+
+const sql = postgres(`postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@${hostname}:5432/${POSTGRES_DB}`, {
     ssl: process.env.NODE_ENV === 'production'
 })
 
