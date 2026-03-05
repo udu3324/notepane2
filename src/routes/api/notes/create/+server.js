@@ -15,7 +15,7 @@ export async function POST({ request, getClientAddress }) {
     const auth_header = request.headers.get("Authorization")
     const key = auth_header?.replace("Bearer ", "").trim().replace("Bearer", "")
     
-    const { markdown, public_url, public_pane } = await request.json()
+    const { markdown, public_url, public_pane, date_created, date_modified } = await request.json()
     
 
     if (!key) {
@@ -44,7 +44,7 @@ export async function POST({ request, getClientAddress }) {
     
     await ratelimit.delete(ip)
 
-    const data = await Notes.addNote(markdown, public_url, public_pane)
+    const data = await Notes.addNote(markdown, public_url, public_pane, date_created, date_modified)
     
     return new Response(JSON.stringify(data), { status: 200 })
 }

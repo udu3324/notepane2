@@ -84,7 +84,7 @@
             publicPaneCreation = false
 
             //be efficient and dont do get()
-            notes = [data, ...notes]
+            notes = [data[0], ...notes]
         })
     }
 

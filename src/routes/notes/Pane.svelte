@@ -13,7 +13,7 @@
     //}
 
     function toggleBreakText() {
-        breakText = ( breakText === "break-normal") ? "break-all" : "break-normal"
+        breakText = ( breakText === "whitespace-pre") ? "break-all" : "whitespace-pre"
     }
 
 </script>

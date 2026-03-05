@@ -60,18 +60,44 @@ export async function getNoteByUUID(uuid) {
     return note || null
 }
 
-export async function addNote(markdown, public_url, public_pane) {
+export async function addNote(markdown, public_url, public_pane, created_at, modified_at) {
     await migrate()
 
-    const [note] = await sql`
-        insert into notes 
-            (markdown, public_url, public_pane)
-        values
-            (${markdown}, ${public_url}, ${public_pane})
-        returning *
-    `
-
-    return note
+    //todo something better
+    //i hate myself
+    if (created_at !== undefined && modified_at !== undefined) {
+        return await sql`
+            insert into notes 
+                (markdown, public_url, public_pane, created_at, modified_at)
+            values
+                (${markdown}, ${public_url}, ${public_pane}, ${created_at}, ${modified_at})
+            returning *
+        `
+    } else if (created_at !== undefined) {
+        return await sql`
+            insert into notes 
+                (markdown, public_url, public_pane, created_at)
+            values
+                (${markdown}, ${public_url}, ${public_pane}, ${created_at})
+            returning *
+        `
+    } else if (modified_at !== undefined) {
+        return await sql`
+            insert into notes 
+                (markdown, public_url, public_pane, modified_at)
+            values
+                (${markdown}, ${public_url}, ${public_pane}, ${modified_at})
+            returning *
+        `
+    } else {
+        return await sql`
+            insert into notes 
+                (markdown, public_url, public_pane)
+            values
+                (${markdown}, ${public_url}, ${public_pane})
+            returning *
+        `
+    }
 }
 
 export async function modifyNote(id, markdown, public_url, public_pane, pinned) {

@@ -1,6 +1,7 @@
 <script>
 	import { onMount } from "svelte";
 	import AuthBar from "./AuthBar.svelte";
+	import PortBar from "./PortBar.svelte";
 
 	let darkmode = false
 
@@ -46,6 +47,8 @@
 		<i class="fa-regular fa-moon"></i>
 		{/if}
 	</button>
+
+	<PortBar/>
 </div>
 
 <style lang="postcss">
