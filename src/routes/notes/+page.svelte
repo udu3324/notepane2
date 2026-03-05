@@ -66,6 +66,8 @@
     }
 
     function add() {
+        if (input.length === 0) return
+        
         fetch('/api/notes/create', {
             method: "POST",
             headers: {
@@ -138,7 +140,10 @@
         })
     }
 
-    function unselect() {
+    function unselect(event) {
+        if (event.pointerType === "touch") {
+            return
+        }
         selected = undefined
     }
 </script>
@@ -147,8 +152,8 @@
 {#if selected}
 <!-- svelte-ignore a11y_click_events_have_key_events -->
 <!-- svelte-ignore a11y_no_static_element_interactions -->
-<div on:click={unselect} class="fixed grid h-screen w-screen place-content-center bg-black/50">
-    <div on:click|stopPropagation id="selection" class="border-t-2 border-l-2 border-r-8 border-solid bg-(--theme-background) border-(--theme)">
+<div on:click={unselect} on:touchstart={unselect} class="fixed grid h-screen w-screen place-content-center bg-black/50">
+    <div on:click|stopPropagation on:touchstart|stopPropagation id="selection" class="border-t-2 border-l-2 border-r-8 border-solid bg-(--theme-background) border-(--theme)">
         <textarea on:input={(e) => submitModification(e.target.value, undefined, undefined, undefined)} bind:value={textAreaMarkdown} placeholder="empty" class="w-full min-h-96 min-w-96 max-w-svw max-h resize"></textarea>
 
         <div class="bg-(--theme) text-white flex justify-between font-mono dark:text-black">

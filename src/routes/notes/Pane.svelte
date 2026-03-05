@@ -3,8 +3,20 @@
 
     let { onFocus, note } = $props()
 
+    let x, y
+
     function internalClick(event) {
+        //console.log(true, event.x)
+        if (event.x !== undefined && event.x !== x && event.y !== y) {
+            return
+        }
+
         onFocus?.(event)
+    }
+
+    function pointerDownEvent(event) {
+        x = event.x
+        y = event.y
     }
 
 
@@ -24,7 +36,7 @@
 
 <div class="outer leading-0">
     <!-- <textarea bind:this={textArea} disabled={true} placeholder="empty notepane">{note.markdown}</textarea> -->
-    <button on:click={internalClick}>
+    <button on:click={internalClick} on:touchstart={internalClick} on:pointerdown={pointerDownEvent}>
         <div class="textarea leading-6 {breakText}">{note.markdown}</div>
     </button>
     
