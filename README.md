@@ -36,6 +36,8 @@ POSTGRES_PASSWORD=pass # have a secure password!
 POSTGRES_DB=mydb
 
 BACKUP_INTERVAL=86400
+
+ORIGIN=http://localhost:3000
 ```
 
 ## production
