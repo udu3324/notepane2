@@ -4,7 +4,7 @@ import postgres from 'postgres'
 const hostname = process.env.DOCKER_ENV ? 'db' : 'localhost'
 
 const sql = postgres(`postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@${hostname}:5432/${POSTGRES_DB}`, {
-    ssl: process.env.NODE_ENV === 'production'
+    ssl: process.env.NODE_ENV === 'production' && process.env.POSTGRES_SSL === 'true'
 })
 
 export default sql

@@ -22,7 +22,7 @@ export async function GET({ request, getClientAddress }) {
 
     if (key !== PASSWORD) {
         return new Response(JSON.stringify({
-                error: "invalid key",
+                error: `invalid key`,
             }), { status: 400 })
     }
 
