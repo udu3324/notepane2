@@ -1,6 +1,8 @@
 <script>
     import { page } from "$app/state";
 
+    let confirmExport = false
+
     let files = $state()
 
     let fileContent = []
@@ -78,6 +80,12 @@
     }
 
 	function exportNotes() {
+        if (!confirmExport) {
+            confirmExport = true
+            alert("Are you sure you want to export? Press the button again to continue.")
+            return
+        }
+
         fetch('/api/notes/get', {
             method: "GET",
             headers: {
@@ -98,6 +106,8 @@
             URL.revokeObjectURL(url)
             hiddenElement.remove()
         })
+
+        confirmExport = false
 	}
 </script>
 
