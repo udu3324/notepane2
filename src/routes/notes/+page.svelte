@@ -27,6 +27,7 @@
             publicURL = selected.public_url
             publicPane = selected.public_pane
             pinned = selected.pinned
+            confirmDelete = false
         }
     }
 
@@ -91,7 +92,14 @@
         })
     }
 
+    let confirmDelete = false
     function remove(id) {
+        if (!confirmDelete) {
+            confirmDelete = true
+            alert("Are you sure you want to delete this? Press the button again to continue.")
+            return
+        }
+
         fetch('/api/notes/remove', {
             method: "DELETE",
             headers: {
@@ -114,6 +122,8 @@
 
             selected = undefined
         })
+
+        confirmDelete = false
     }
 
     function submitModification(markdown, publicURL, publicPane, pinned) {
@@ -167,7 +177,7 @@
         <textarea on:input={(e) => submitModification(e.target.value, undefined, undefined, undefined)} bind:value={textAreaMarkdown} placeholder="empty" class="w-full min-h-96 min-w-96 max-h resize" style="max-width: var(--pane-width-max);"></textarea>
 
         <div class="bg-(--theme) text-(--theme-background) flex justify-between font-mono">
-            <button on:click={remove(selected.id)} class="pl-2">Delete</button>
+            <button on:click={() => remove(selected.id)} class="pl-2">Delete</button>
 
             <div class="text-xs place-content-center">
                 <input id="ppi" on:input={() => submitModification(undefined, undefined, undefined, !pinned)} type="checkbox" bind:checked={pinned}>
