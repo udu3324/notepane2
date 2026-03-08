@@ -2,6 +2,12 @@
 
 A note taking app that allows you to easily take notes and share them to the public.
 
+# importing and exporting
+
+You can import files from **Google Keeps** with the [takeout service.](https://takeout.google.com/) A directory of .json and .html files will be exported from Googke Keeps which can be opened by Notepane. Notepane exports can also be imported.
+
+Exports from Notepane will be formatted in .json files.
+
 # endpoints
 
 All endpoints have a default ratelimit of 10 requests every 20 seconds and gets reset if sucessfully authenticated.
