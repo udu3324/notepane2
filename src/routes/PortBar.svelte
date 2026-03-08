@@ -39,31 +39,59 @@
             i++
 		}
 
-        // send them to the api
-        for (const obj of fileContent) {
-            //color, createdTimestampUsec, isArchived, isPinned, isTrashed, textContent, textContentHtml, title, userEditedTimestampUsec
-            const created = new Date(obj.createdTimestampUsec / 1000)
-            const modified = new Date(obj.userEditedTimestampUsec / 1000)
+        
+        if (fileContent[0][0].id !== undefined) {
+            console.log(true, fileContent[0])
+            //importing a .json from notepane export
 
-            await fetch('/api/notes/create', {
-                method: "POST",
-                headers: {
-                    "authorization": `Bearer ${localStorage.getItem("key").replaceAll("\"", "")}`
-                },
-                body: JSON.stringify({
-                    markdown: obj.textContent,
-                    public_url: false,
-                    public_pane: false,
-                    created_at: created.toISOString(),
-                    modified_at: modified.toISOString()
+            for (const obj of fileContent[0]) {
+                await fetch('/api/notes/create', {
+                    method: "POST",
+                    headers: {
+                        "authorization": `Bearer ${localStorage.getItem("key").replaceAll("\"", "")}`
+                    },
+                    body: JSON.stringify({
+                        markdown: obj.markdown,
+                        public_url: obj.public_url,
+                        public_pane: obj.public_pane,
+                        created_at: obj.created_at,
+                        modified_at: obj.modified_at
+                    })
                 })
-            })
-            .then(response=>response.json())
-            .then(() => {
-                log(`${fileContent.indexOf(obj) + 1}/${fileContent.length} - notes upload`)
-            })
-            //await new Promise(resolve => setTimeout(resolve, 500));
+                .then(response=>response.json())
+                .then(() => {
+                    log(`${fileContent.indexOf(obj) + 1}/${fileContent.length} - notes upload`)
+                })
+            }
+        } else {
+            //(supposedly) importing multiple jsons from keeps
+
+            for (const obj of fileContent) {
+                //color, createdTimestampUsec, isArchived, isPinned, isTrashed, textContent, textContentHtml, title, userEditedTimestampUsec
+                const created = new Date(obj.createdTimestampUsec / 1000)
+                const modified = new Date(obj.userEditedTimestampUsec / 1000)
+
+                await fetch('/api/notes/create', {
+                    method: "POST",
+                    headers: {
+                        "authorization": `Bearer ${localStorage.getItem("key").replaceAll("\"", "")}`
+                    },
+                    body: JSON.stringify({
+                        markdown: obj.textContent,
+                        public_url: false,
+                        public_pane: false,
+                        created_at: created.toISOString(),
+                        modified_at: modified.toISOString()
+                    })
+                })
+                .then(response=>response.json())
+                .then(() => {
+                    log(`${fileContent.indexOf(obj) + 1}/${fileContent.length} - notes upload`)
+                })
+                //await new Promise(resolve => setTimeout(resolve, 500));
+            }
         }
+        
         console.log("finished")
 
 
