@@ -1,0 +1,28 @@
+@import 'tailwindcss';
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+:root {
+    --accent: theme('colors.blue.500');
+    --theme: theme('colors.zinc.900');
+    --theme-background: theme('colors.white');
+    --pane-width-max: calc(100vw - 8px - 2px - (3 * (var(--spacing, 0.25rem) * 3)));
+}
+
+.dark {
+    --theme: theme('colors.zinc.200');
+    --theme-background: theme('colors.zinc.900');
+    @apply bg-(--theme-background);
+}
+
+input {
+    @apply focus-within:outline-4 focus-within:rounded-sm focus-within:outline-(--accent);
+}
+
+textarea {
+    @apply focus-within:outline-2 focus-within:outline-(--accent);
+}
+
+textarea {
+    @apply px-1;
+}
