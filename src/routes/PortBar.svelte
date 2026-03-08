@@ -60,7 +60,7 @@
                 })
                 .then(response=>response.json())
                 .then(() => {
-                    log(`${fileContent.indexOf(obj) + 1}/${fileContent.length} - notes upload`)
+                    log(`${fileContent[0].indexOf(obj) + 1}/${fileContent[0].length} - notes upload`)
                 })
             }
         } else {
