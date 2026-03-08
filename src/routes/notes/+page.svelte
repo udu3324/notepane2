@@ -153,11 +153,15 @@
 
     let x, y
     function unselect(event) {
-        if (event.pointerType === "touch") {
-            return
+        let diffX = event.x
+        let diffY = event.y
+
+        if (event.x === undefined) { //its a mobile touch
+            diffX = event.changedTouches[0].clientX
+            diffY = event.changedTouches[0].clientY
         }
         
-        if (between(x, event.clientX, 5) && between(y, event.clientY, 5)) {
+        if (between(x, diffX, 5) && between(y, diffY, 5)) {
             selected = undefined
         }
     }
