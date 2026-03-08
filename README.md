@@ -33,6 +33,7 @@ PASSWORD=1234 # this is the password to notepane
 
 POSTGRES_USER=user
 POSTGRES_PASSWORD=pass # have a secure password!
+POSTGRES_HOSTNAME=db # default to either process.env.DOCKER_ENV ? 'db' : 'localhost'
 POSTGRES_DB=mydb
 
 BACKUP_INTERVAL=86400
