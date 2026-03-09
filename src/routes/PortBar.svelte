@@ -40,7 +40,8 @@
 		}
 
         
-        if (fileContent[0][0].id !== undefined) {
+        const notepaneExportCheck = fileContent?.[0]?.[0]?.id
+        if (notepaneExportCheck !== undefined) {
             console.log(true, fileContent[0])
             //importing a .json from notepane export
 
@@ -100,6 +101,8 @@
         fileContent = []
         files = undefined
         textlog = ""
+
+        alert("Finished importing notes! Please refresh the page to see them.")
     }
 
     function log(line) {
