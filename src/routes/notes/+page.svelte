@@ -50,7 +50,7 @@
                 get()
             } else {
                 //invalid key
-                goto(resolve("/login"))
+                goto(resolve("/"))
             }
         })
     })
