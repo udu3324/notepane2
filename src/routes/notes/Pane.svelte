@@ -26,7 +26,7 @@
         y = event.y
     }
 
-    let breakText = $state("break-none")
+    let breakText = $state("whitespace-pre")
     let footerText = note.created_at.substring(0, 10) //`${note.created_at.substring(0, 10)} - ${note.modified_at.substring(0, 10)}`
     
     // remove second date if its the same as the first one
@@ -35,7 +35,7 @@
     //}
 
     function toggleBreakText() {
-        breakText = ( breakText === "whitespace-pre") ? "break-none" : "whitespace-pre"
+        breakText = ( breakText === "break-none") ? "whitespace-pre" : "break-none"
     }
 
 </script>
