@@ -5,7 +5,15 @@
     
     export let data
     $: note = data?.note
-    $: description = note?.markdown ? note.markdown.substring(0, 60) : ''
+    $: description = note?.markdown ? cutoff(note.markdown) : ''
+
+    function cutoff(str) {
+        if (str.length >= 157) {
+            return `${str.substring(0, 157)}...`
+        }
+
+        return str.substring(0, 157)
+    }
 
     onMount(() => {
         if (localStorage.theme === "dark") {
