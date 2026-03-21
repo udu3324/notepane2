@@ -1,8 +1,9 @@
 <script>
 	import { resolve } from "$app/paths";
 	import { between } from "$lib";
+	import { MediaQuery } from "svelte/reactivity";
 
-    let { onFocus, note } = $props()
+    let { onFocus, note, styleClasses = "min-w-52 min-h-52 w-52 h-52" } = $props()
 
     let x, y
 
@@ -38,12 +39,25 @@
         breakText = ( breakText === "whitespace-pre") ? "whitespace-break-spaces" : "whitespace-pre"
     }
 
+    const smallScreen = new MediaQuery("(max-device-width: 570px)")
+    $effect(() => {
+        //console.log(styleClasses)
+        if ((styleClasses === "min-w-52 min-h-52 w-52 h-52") || (styleClasses === "min-w-44 min-h-44 w-44 h-44")) {
+            console.log("overwriting")
+            if (smallScreen.current) {
+                styleClasses = "min-w-44 min-h-44 w-44 h-44"
+            } else {
+                styleClasses = "min-w-52 min-h-52 w-52 h-52"
+            }
+        }
+    })
+    
 </script>
 
 <div class="outer leading-0">
     <!-- <textarea bind:this={textArea} disabled={true} placeholder="empty notepane">{note.markdown}</textarea> -->
     <button on:click={internalClick} on:touchend={internalClick} on:pointerdown={pointerDownEvent} >
-        <div class="textarea leading-6 select-text {breakText}">{note.markdown}</div>
+        <div class="textarea leading-6 select-text {breakText} {styleClasses}">{note.markdown}</div>
     </button>
     
     <div class="footer flex justify-between">
@@ -77,16 +91,15 @@
 
     .textarea {
         @apply resize px-1 text-left text-(--theme);
-        @apply min-w-52 min-h-52 w-52 h-52;
         max-width: var(--pane-width-max);
         /*screen width - borders - padding*/
         overflow: auto;
     }
 
     @media only screen and (max-device-width: 570px) {
-		.textarea {
+		/*.textarea {
 			@apply min-w-44 min-h-44 w-44 h-44;
-		}
+		}*/
         .mdflare {
             @apply hidden;
         }

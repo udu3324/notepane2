@@ -37,6 +37,6 @@
     {#if note.error !== undefined}
     <span class="font-mono">{JSON.stringify(note)}</span>
     {:else}
-    <Pane note={note}/>
+    <Pane note={note} styleClasses="min-w-52 min-h-52 h-80 w-80"/>
     {/if}
 </div>
