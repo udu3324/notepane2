@@ -43,7 +43,7 @@
 <div class="outer leading-0">
     <!-- <textarea bind:this={textArea} disabled={true} placeholder="empty notepane">{note.markdown}</textarea> -->
     <button on:click={internalClick} on:touchend={internalClick} on:pointerdown={pointerDownEvent} >
-        <div class="textarea leading-6 {breakText}">{note.markdown}</div>
+        <div class="textarea leading-6 select-text {breakText}">{note.markdown}</div>
     </button>
     
     <div class="footer flex justify-between">
