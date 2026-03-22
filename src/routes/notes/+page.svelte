@@ -11,6 +11,9 @@
     let authenticated = false
 
     let notes = []
+    $: pinnedCount = notes.filter(note => note.pinned).length
+    $: publicPaneCount = notes.filter(note => note.public_pane).length
+    $: publicURLCount = notes.filter(note => note.public_url).length
     let input = ""
     let publicURLCreation = false
     let publicPaneCreation = false
@@ -22,6 +25,10 @@
     let publicURL
     let publicPane
     let pinned
+
+    let allActive = true
+    let urlActive = false
+    let publicActive = false
 
     $: {
         if (selected) {
@@ -169,6 +176,24 @@
         }
     }
 
+    function setFilter(option) {
+        allActive = false
+        urlActive = false
+        publicActive = false
+
+        switch (option) {
+            case 'all':
+                allActive = true
+                break
+            case 'url':
+                urlActive = true
+                break
+            case 'public':
+                publicActive = true
+                break
+        }
+    }
+
     function pointerDownEvent(event) {
         x = event.clientX
         y = event.clientY
@@ -230,23 +255,37 @@
             </div>
         </div>
     </div>
-
-    <div class="panes border-b-2 border-t-2 border-(--theme)">
+    
+    <div class="px-3 pt-3 border-t-2 border-(--theme)">
+        <button class="outer mr-1">pinned <span class="text-sm">({pinnedCount})</span></button>
+    </div>
+    <div class="panes border-b-2 border-(--theme)">
         <div class="panes-inner">
             {#each notes as note (note.id)}
-            {#if note.pinned}
-            <Pane note={note} onFocus={() => {selected = note}}/>
-            {/if}
+                {#if note.pinned}
+                    <Pane note={note} onFocus={() => {selected = note}}/>
+                {/if}
             {/each}
         </div>
     </div>
 
+    <div class="px-3 pt-3">
+        <button on:click={() => setFilter("all")} class:active={allActive} class="outer mr-1">all <span class="text-sm">({notes.length})</span></button>
+        <button on:click={() => setFilter("url")} class:active={urlActive} class="outer mr-1">public url <span class="text-sm">({publicURLCount})</span></button>
+        <button on:click={() => setFilter("public")} class:active={publicActive} class="outer">public pane <span class="text-sm">({publicPaneCount})</span></button>
+    </div>
     <div class="panes">
         <div class="panes-inner">
             {#each notes as note (note.id)}
-            {#if !note.pinned}
-            <Pane note={note} onFocus={() => {selected = note}}/>
-            {/if}
+                {#if !note.pinned}
+                    {#if allActive}
+                        <Pane note={note} onFocus={() => {selected = note}}/>
+                    {:else if urlActive && note.public_url}
+                        <Pane note={note} onFocus={() => {selected = note}}/>
+                    {:else if publicActive && note.public_pane}
+                        <Pane note={note} onFocus={() => {selected = note}}/>
+                    {/if}
+                {/if}
             {/each}
         </div>
     </div>
@@ -277,4 +316,14 @@
             @apply grid grid-flow-row grid-cols-2 gap-2;
         }
 	}
+
+    .outer {
+        @apply border-t-2 border-l-2 border-r-4 border-b-8 border-solid border-(--theme);
+        @apply w-fit h-fit px-1 text-(--theme);
+        @apply cursor-pointer hover:outline-2 hover:outline-(--accent);
+    }
+
+    .active {
+        @apply outline-2 outline-(--accent);
+    }
 </style>
