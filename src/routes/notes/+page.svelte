@@ -12,8 +12,9 @@
 
     let notes = []
     $: pinnedCount = notes.filter(note => note.pinned).length
-    $: publicPaneCount = notes.filter(note => note.public_pane).length
-    $: publicURLCount = notes.filter(note => note.public_url).length
+    $: allCount = notes.filter(note => !note.pinned).length
+    $: publicPaneCount = notes.filter(note => note.public_pane && !note.pinned).length
+    $: publicURLCount = notes.filter(note => note.public_url && !note.pinned).length
     let input = ""
     let publicURLCreation = false
     let publicPaneCreation = false
@@ -270,7 +271,7 @@
     </div>
 
     <div class="px-3 pt-3">
-        <button on:click={() => setFilter("all")} class:active={allActive} class="outer mr-1">all <span class="text-sm">({notes.length})</span></button>
+        <button on:click={() => setFilter("all")} class:active={allActive} class="outer mr-1">all <span class="text-sm">({allCount})</span></button>
         <button on:click={() => setFilter("url")} class:active={urlActive} class="outer mr-1">public url <span class="text-sm">({publicURLCount})</span></button>
         <button on:click={() => setFilter("public")} class:active={publicActive} class="outer">public pane <span class="text-sm">({publicPaneCount})</span></button>
     </div>
